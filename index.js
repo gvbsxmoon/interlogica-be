@@ -1,19 +1,21 @@
-const dotenv = require("dotenv");
-const express = require("express");
 const mongoose = require("mongoose");
+const routes = require("./routes/routes");
+const express = require("express");
 
-dotenv.config();
 const app = express();
-mongoose.set("strictQuery", true);
+
+// this should be in a .env
+const dbUri = 'mongodb+srv://admin:admin@pasticcerialuanamaria.ixyuazx.mongodb.net/?retryWrites=true&w=majority';
+
+// middlewares
+app.use(routes);
+app.use(express.json());
 
 mongoose
-  .connect(process.env.DB_URI, {
+  .set("strictQuery", true)
+  .connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
-    app.listen(3000, () => console.log("server has started successfully"));
-  })
+  .then(() => app.listen(3000, () => console.log(dbUri)))
   .catch((e) => console.log(e));
-
-//middlewares
