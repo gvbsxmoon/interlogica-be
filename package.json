@@ -1,0 +1,24 @@
+{
+  "name": "interlogica-be",
+  "version": "1.0.0",
+  "description": "interlogica express+mongo db",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gvbsxmoon/interlogica-jobinterview.git"
+  },
+  "author": "Luca Natale",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.4",
+    "nodemon": "^2.0.20"
+  }
+}
