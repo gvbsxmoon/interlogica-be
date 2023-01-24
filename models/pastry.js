@@ -15,7 +15,7 @@ const IngredientSchema = new mongoose.Schema({
   },
 });
 
-const PastryScheme = new mongoose.Schema({
+const PastrySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -42,4 +42,4 @@ const PastryScheme = new mongoose.Schema({
   }, 
 });
 
-module.exports = Pastry = mongoose.model("pastry", PastryScheme);
+module.exports = Pastry = mongoose.model("pastry", PastrySchema);
