@@ -36,10 +36,10 @@ const PastryScheme = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
- /*  ingredients: {
+ ingredients: {
     type: [IngredientSchema],
     required: false,
-  }, */
+  }, 
 });
 
 module.exports = Pastry = mongoose.model("pastry", PastryScheme);

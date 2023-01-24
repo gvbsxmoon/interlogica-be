@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
-const routes = require("./routes/routes");
 const express = require("express");
+const cors = require("cors");
+const routes = require("./routes/routes");
 
 const app = express();
 
 // this should be in a .env
-const dbUri = 'mongodb+srv://admin:admin@pasticcerialuanamaria.ixyuazx.mongodb.net/?retryWrites=true&w=majority';
+const dbUri =
+  "mongodb+srv://admin:admin@pasticceria.hu2dsez.mongodb.net/pastry?retryWrites=true&w=majority";
 
 // middlewares
-app.use(routes);
 app.use(express.json());
+app.use(cors());
+app.use(routes);
 
 mongoose
   .set("strictQuery", true)

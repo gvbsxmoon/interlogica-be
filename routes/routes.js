@@ -1,13 +1,12 @@
 const express = require("express");
-const Pastry = require('../models/pastry');
-const { check, validationResult } = require('express-validator');
+const Pastry = require("../models/pastry");
 
 const router = express.Router();
 
 // @route   GET api/pastry
 // @desc    Get All Pastries
 // @access  Public
-router.get("/", async (req, res) => {
+router.get("/api/pastry", async (req, res) => {
   try {
     const pastry = await Pastry.find();
     res.json(pastry);
@@ -17,76 +16,78 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route   POST api/pastries
-// @desc    Create an Pastry
+
+// @route   GET api/pastry/:id
+// @desc    Get One Pastry
 // @access  Public
-router.post(
-  "/",
-  /* [check("name", "Name is required").not().isEmpty()], */
-  async (req, res) => {
-    /* const errors = validationResult(req); 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    */
-
-    const { name, price, quantity } = req.body;
-
-    try {
-      const newPastry = new Pastry({name, price, quantity});
-
-      const pastry = await newPastry.save();
-
-      res.json(pastry);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
+router.get("/api/pastry/:id", async (req, res) => {
+  try {
+    const pastry = await Pastry.findById(req.params.id);
+    res.json(pastry);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
-);
+});
 
-// @route   PUT api/items/:id
-// @desc    Update an Item
-// @access  Public
-/* router.put("/:id", async (req, res) => {
-  const { name } = req.body;
-
-  // Build item object
-  const itemFields = {};
-  if (name) itemFields.name = name;
+// @route   POST api/pastry
+// @desc    Create a Pastry
+// @access  Private
+router.post("/api/pastry", async (req, res) => {
+  const { name, price, quantity } = req.body;
 
   try {
-    let item = await Item.findById(req.params.id);
-    if (!item) return res.status(404).json({ msg: "Item not found" });
+    const pastry = await Pastry.create({ name, price, quantity });
+    res.status(200).send(pastry);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
-    item = await Item.findByIdAndUpdate(
+// @route   PUT api/pastry/:id
+// @desc    Update a Pastry
+// @access  Private
+router.put("/:id", async (req, res) => {
+  const { name, price, quantity } = req.body;
+
+  const pastryFields = {};
+  if (name) pastryFields.name = name;
+  if (price) pastryFields.price = price;
+  if (quantity) pastryFields.quantity = quantity;
+
+  try {
+    let pastry = await Pastry.findById(req.params.id);
+    if (!pastry) return res.status(404).json({ msg: "Pastry not found" });
+
+    pastry = await Pastry.findByIdAndUpdate(
       req.params.id,
-      { $set: itemFields },
+      { $set: pastryFields },
       { new: true }
     );
 
-    res.json(item);
+    res.json(pastry);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
-}); */
+});
 
-// @route   DELETE api/items/:id
-// @desc    Delete an Item
-// @access  Public
-/* router.delete("/:id", async (req, res) => {
+// @route   DELETE api/pastry/:id
+// @desc    Delete a Pastry
+// @access  Private
+router.delete("/api/pastry/:id", async (req, res) => {
   try {
-    let item = await Item.findById(req.params.id);
-    if (!item) return res.status(404).json({ msg: "Item not found" });
+    let pastry = await Pastry.findById(req.params.id);
+    if (!pastry) return res.status(404).json({ msg: "Pastry not found" });
 
-    await Item.findByIdAndRemove(req.params.id);
+    await Pastry.findByIdAndRemove(req.params.id);
 
-    res.json({ msg: "Item removed" });
+    res.json({ msg: "Pastry removed" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
-}); */
+});
 
 module.exports = router;
