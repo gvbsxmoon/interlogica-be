@@ -49,7 +49,7 @@ router.post("/api/pastry", async (req, res, next) => {
 // @route   PUT api/pastry/:id
 // @desc    Update a Pastry
 // @access  Private
-router.put("/:id", async (req, res, next) => {
+router.put("/api/pastry/:id", async (req, res, next) => {
   const { name, price, quantity, token } = req.body;
 
   try {
@@ -79,9 +79,9 @@ router.put("/:id", async (req, res, next) => {
 // @route   DELETE api/pastry/:id
 // @desc    Delete a Pastry
 // @access  Private
-router.delete("/api/pastry/:id", async (req, res, next) => {
+router.delete("/api/pastry/:token/:id", async (req, res, next) => {
   try {
-    jwt.verify(token, secret);
+    jwt.verify(req.params.token, secret);
 
     let pastry = await Pastry.findById(req.params.id);
     if (!pastry) return res.status(404).json({ msg: "Pastry not found" });
